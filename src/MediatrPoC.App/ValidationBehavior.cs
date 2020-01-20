@@ -10,7 +10,7 @@ using MediatR.Pipeline;
 namespace MediatrPoC.App
 {
 	public class ValidationBehavior<TRequest> : IRequestPreProcessor<TRequest>
-		where TRequest : IRequest
+		where TRequest : IBaseRequest
 	{
 		private readonly IEnumerable<IValidator<TRequest>> _validators;
 

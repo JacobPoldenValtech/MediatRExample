@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using MediatR;
 using MediatrPoC.Domain.Bookings;
 using MediatrPoC.Utils;
@@ -6,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MediatrPoC.App.Booking
 {
-	[Route("api/[controller]")]
+	[Route("api/booking")]
 	[ApiController]
 	public class ApisController : ControllerBase
 	{
@@ -18,7 +19,8 @@ namespace MediatrPoC.App.Booking
 		}
 
 		[HttpPost]
-		[Route("{bookingReference}")]
+		[Route("{bookingReference}/apis")]
+		[ProducesResponseType((int)HttpStatusCode.NoContent)]
 		public async Task<ActionResult> AddApisToBooking(
 			[FromRoute]string bookingReference,
 			[FromBody] AddApisToBookingRequestModel request)
@@ -29,14 +31,13 @@ namespace MediatrPoC.App.Booking
 			return NoContent();
 		}
 
-		// public async Task<ActionResult> GetBookingApis()
-		// {
-		// return NoContent();
-		// }
-
-		// public async Task<ActionResult> RemoveApisFromBooking()
-		// {
-		// return NoContent();
-		// }
+		[HttpGet]
+		[Route("{bookingReference}/apis")]
+		public async Task<ActionResult<Apis>> GetBookingApis([FromRoute]string bookingReference)
+		{
+			var query = new GetApisFromBooking.Query(bookingReference);
+			var apisResult = await _mediator.Send(query);
+			return Ok(apisResult);
+		}
 	}
 }
