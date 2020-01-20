@@ -17,6 +17,7 @@ namespace MediatrPoC.App.Booking
 			_mediator = mediator;
 		}
 
+		[HttpPost]
 		[Route("{bookingReference}")]
 		public async Task<ActionResult> AddApisToBooking(
 			[FromRoute]string bookingReference,

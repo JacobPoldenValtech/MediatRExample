@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using DummyDataStore;
 using MediatR;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace MediatrPoC.App
 {
@@ -28,8 +30,17 @@ namespace MediatrPoC.App
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services
+				.AddMvcCore()
+				.AddApiExplorer();
+
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mediatr PoC", Version = "v1" });
+			});
 			services.AddControllers();
-			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+			services.AddMediatR(Assembly.GetAssembly(typeof(AddApisToBooking)), Assembly.GetAssembly(typeof(ValidationBehavior<>)));
 
 			services.AddTransient<IBookingRepository, BookingRepository>();
 		}
@@ -51,6 +62,12 @@ namespace MediatrPoC.App
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+			});
+
+			app.UseSwagger();
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
 			});
 		}
 	}
