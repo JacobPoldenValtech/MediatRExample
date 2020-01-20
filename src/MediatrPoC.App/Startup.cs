@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DummyDataStore;
+using MediatR;
+using MediatrPoC.Domain.Bookings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +29,9 @@ namespace MediatrPoC.App
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+			services.AddTransient<IBookingRepository, BookingRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,12 +3,37 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\MediatrPoC.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Booking\InfantController.cs" />
+  </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="8.6.1" />
     <PackageReference Include="MediatR" Version="8.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DummyDataStore\DummyDataStore.csproj" />
+    <ProjectReference Include="..\MediatrPoC.Domain\MediatrPoC.Domain.csproj" />
+    <ProjectReference Include="..\MediatrPoC.Utils\MediatrPoC.Utils.csproj" />
   </ItemGroup>
 
 
